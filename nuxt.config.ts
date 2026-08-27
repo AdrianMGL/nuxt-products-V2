@@ -13,5 +13,15 @@ export default defineNuxtConfig({
     '@nuxt/hints',
     '@nuxt/icon',
     '@nuxt/image'
-  ]
+  ],
+
+  // SPA - Single Page Application
+  /*
+  ssr: false,
+  nitro: {
+    preset: 'static',
+    static: true,
+  },
+  */
+
 })
