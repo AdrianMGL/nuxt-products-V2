@@ -1,9 +1,14 @@
 <template>
-  <div>
-    <NuxtPage />
-  </div>
-</template>
 
+  <div>
+
+    <MainNavigation />
+
+    <NuxtPage />
+
+  </div>
+
+</template>
 
 <style>
 div .count {

@@ -2,6 +2,7 @@
 
 // throw new Error('test error');
 
+/*
 throw createError({
   statusCode: 500,
   statusMessage: 'Internal Server Error',
@@ -10,12 +11,14 @@ throw createError({
     myOtherField: 'Hello World',
   },
 })
+*/
 
 </script>
 
 <template>
   <div>
-    Page: products
+    <h1>Products</h1>
+    <p>Here are our products!</p>
   </div>
 </template>
 
