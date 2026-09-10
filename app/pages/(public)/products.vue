@@ -1,5 +1,20 @@
 <script setup lang="ts">
 
+
+useSeoMeta({
+  title: 'Products | Mi tienda de servicios',
+  description: 'Here are our products!',
+  ogTitle: 'Products | Mi tienda de servicios',
+  ogDescription: 'Here are our products!',
+  ogImage: '/images/og-image.png',
+  ogType: 'website',
+  ogUrl: 'https://www.mitiendadeservicios.com/products',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Products | Mi tienda de servicios',
+  twitterDescription: 'Here are our products!',
+  twitterImage: '/images/twitter-image.png',
+});
+
 // throw new Error('test error');
 
 /*

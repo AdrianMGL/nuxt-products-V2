@@ -7,6 +7,21 @@ export default defineNuxtConfig({
     '~/assets/css/main.css',
   ],
 
+  app: {
+    head: {
+      title: 'Mi tienda de servicios',
+      meta: [
+        { 
+          name: 'description', 
+          content: 'Bienvenido a tu tienda de servicios generales.' 
+        },
+      ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ],
+    },
+  },
+
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
