@@ -27,7 +27,8 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/hints',
     '@nuxt/icon',
-    '@nuxt/image'
+    '@nuxt/image',
+    '@nuxt/ui',
   ],
 
   // SPA - Single Page Application

@@ -1,19 +1,20 @@
 <template>
 
-  <NuxtLayout>
-    <!-- <MainNavigation /> -->
-    <NuxtPage />
-  </NuxtLayout>
+  <UApp>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </UApp>
 
 </template>
 
 <style>
+/*
 div .count {
   display: flex;
   gap: 5px;
 }
 
-/*
 body {
   background-color: #020420;
   font-family: 'Roboto', sans-serif;
