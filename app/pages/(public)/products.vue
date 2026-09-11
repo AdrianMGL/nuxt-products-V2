@@ -34,6 +34,11 @@ throw createError({
   <div>
     <h1>Products</h1>
     <p>Here are our products!</p>
+    
+    <div class="w-md flex justify-around items-center mt-10">
+      <u-button label="primary" color="primary" />
+      <u-button label="secondary" color="secondary" />
+    </div>
   </div>
 </template>
 
