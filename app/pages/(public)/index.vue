@@ -10,16 +10,15 @@
     <!-- Section -->
     <HomeSection />
 
-    <!-- Hero -->
-     <HomeHeroFeatures />
-
     <!-- HomeFeatures -->
-     <HomeFeatures />
-
-     <!-- Hero -->
-      <HomeHeroTestimonials />
+    <HomeFeatures />
 
     <!-- HomeTestimonials -->
     <HomeTestimonials />
+
+    <!-- HomeSponsors -->
+    <HomeSponsors />
+    
+    <HomeSponsorsReverse />
 
 </template>

@@ -136,7 +136,13 @@ const testimonials = ref([
 </script>
 
 <template>
-    <div class="mb-25">
+    <div class="mb-35">
+        <UPageSection
+        title="Testimonials"
+        description="Nuxt UI provides a comprehensive suite of components and utilities to help you build beautiful and accessible web applications with Vue and Nuxt."
+        icon="i-lucide-users"
+        headline="Testimonials"
+        />
         <UPageColumns>
             <UPageCard
             variant="solid"

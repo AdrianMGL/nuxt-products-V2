@@ -1,0 +1,29 @@
+<template>
+    <UPageSection
+    title="Sponsors"
+    description="Trusted by the best front-end teams"
+    icon="i-lucide-infinity"
+    headline="sponsors"
+    />
+  <UPageLogos class="mb-10"
+    marquee
+    :items="[
+      'i-simple-icons-github',
+      'i-simple-icons-discord',
+      'i-simple-icons-x',
+      'i-simple-icons-instagram',
+      'i-simple-icons-linkedin',
+      'i-simple-icons-nuxt',
+      'i-simple-icons-youtube',
+      'i-simple-icons-bitbucket',
+      'i-simple-icons-whatsapp',
+      'i-simple-icons-telegram',
+      'i-simple-icons-angular',
+      'i-simple-icons-react',
+      'i-simple-icons-v',
+      'i-simple-icons-wordpress',
+      'i-simple-icons-vite',
+      'i-simple-icons-facebook'
+    ]"
+  />
+</template>

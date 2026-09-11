@@ -28,7 +28,7 @@ const features = ref<PageFeatureProps[]>([
     title="Beautiful Vue UI components"
     description="Nuxt UI provides a comprehensive suite of components and utilities to help you build beautiful and accessible web applications with Vue and Nuxt."
     :features="features"
-    icon="i-lucide-rocket"
-    headline="Features"
+    icon="i-lucide-star"
+    headline="Services"
   />
 </template>

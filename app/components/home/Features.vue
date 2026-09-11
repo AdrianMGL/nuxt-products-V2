@@ -45,7 +45,13 @@ const cards = ref([
 </script>
 
 <template>
-  <UPageGrid class="mb-25">
+    <UPageSection
+    title="Features"
+    description="Nuxt UI provides a comprehensive suite of components and utilities to help you build beautiful and accessible web applications with Vue and Nuxt."
+    icon="i-lucide-rocket"
+    headline="Features"
+    />
+  <UPageGrid class="mb-35">
     <UPageCard
       v-for="(card, index) in cards"
       :key="index"
