@@ -5,13 +5,13 @@ useSeoMeta({
   description: 'Check out our pricing options!',
   ogTitle: 'Pricing | Mi tienda de servicios',
   ogDescription: 'Check out our pricing options!',
-  ogImage: '/images/og-image.png',
+//   ogImage: '/images/og-image.png',
   ogType: 'website',
-  ogUrl: 'https://www.mitiendadeservicios.com/pricing',
-  twitterCard: 'summary_large_image',
+//   ogUrl: 'https://www.mitiendadeservicios.com/pricing',
+//   twitterCard: 'summary_large_image',
   twitterTitle: 'Pricing | Mi tienda de servicios',
   twitterDescription: 'Check out our pricing options!',
-  twitterImage: '/images/twitter-image.png',
+//   twitterImage: '/images/twitter-image.png',
 });
 
 </script>
