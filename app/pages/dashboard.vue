@@ -15,8 +15,8 @@ definePageMeta({
 
 <template>
     <div>
-        <h2>hola desde dashboard page</h2>
-        <p>Welcome to your dashboard page!</p>
+        <!-- <h2>hola desde dashboard page</h2>
+        <p>Welcome to your dashboard page!</p> -->
         <NuxtPage />
     </div>
 </template>
