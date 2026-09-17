@@ -9,12 +9,9 @@ async function seedDB() {
 
 
     // Insertar registros
-    /*
-    */
     await prisma.siteReview.createMany({
         data: siteReviews,
     });
-
 
     console.log('DB Succesfully');
 }
