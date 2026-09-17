@@ -1,3 +1,4 @@
+/*
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ name: string; email: string }>(event);
 
@@ -10,3 +11,4 @@ export default defineEventHandler(async (event) => {
 
   return user;
 });
+*/
