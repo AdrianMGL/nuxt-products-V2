@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
     return {
         products,
         totalPages,
-        currentPage: (offset / limit + 1),
+        currentPage: offset / limit + 1,
         perPage: limit,
         total,
     }
