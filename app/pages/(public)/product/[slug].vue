@@ -68,10 +68,7 @@ const product = computed(() => {
 */
 
 const { product } = await useProduct(slug);
-const { data: productSuggestions } = useFetch(`/api/product/${slug}/suggestions`, {
-  lazy: true,
-  server: false,
-});
+
 
 // Si no se encuentra el producto, mostrar error 404
 if (!product.value) {
@@ -239,13 +236,15 @@ const totalPrice = computed(() => {
 
     <!-- Related Products Section (optional) -->
     <div v-if="product" class="mt-16">
-      <h2 class="text-2xl font-bold text-gray-900 mb-6">
+      <h2 class="text-2xl font-bold text-gray-300 mb-6">
         Productos relacionados
       </h2>
-      <LazyProductsGrid
+      <!-- <LazyProductsGrid
         hydrate-on-visible
         :products="productSuggestions || []"
-      />
+      /> -->
+
+      <LazyProductSuggestions :slug="slug" hydrate-on-visible />
     </div>
   </div>
 </template>
