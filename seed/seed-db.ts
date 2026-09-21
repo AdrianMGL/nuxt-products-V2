@@ -4,12 +4,20 @@ import { siteReviews } from './site-reviews.seed';
 import { products } from "./products.seed";
 import { users } from "./users.seed";
 
+import bcrypt from 'bcryptjs';
+
 async function seedDB() {
 
     // Purgar DB
     await prisma.siteReview.deleteMany();
     await prisma.product.deleteMany();
     await prisma.user.deleteMany();
+
+    // HASH de contraseñas
+    const usersWithHashedPassword = users.map((user) => ({
+        ...user,
+        password: bcrypt.hashSync(user.password, bcrypt.genSaltSync(10)),
+    }));
 
     // Insertar registros
     await prisma.siteReview.createMany({
@@ -21,7 +29,7 @@ async function seedDB() {
     });
 
     await prisma.user.createMany({
-        data: users,
+        data: usersWithHashedPassword,
     });
 
     console.log('DB Succesfully');
