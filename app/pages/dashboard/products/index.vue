@@ -18,7 +18,13 @@
       />
     </div>
 
-    <UTable :data="data" :columns="columns" class="flex-1" />
+    <UTable :data="products" :columns="columns" class="flex-1" />
+
+    <SharedPagination
+      :total="total" 
+      :model-value="currentPage"
+      :per-page="perPage"
+    />
   </div>
 </template>
 
@@ -26,14 +32,20 @@
 import { h, resolveComponent } from 'vue';
 import type { TableColumn } from '@nuxt/ui';
 const UBadge = resolveComponent('UBadge');
-type Payment = {
+
+const { products, currentPage, perPage, total } = await usePaginatedProducts();
+
+/*
+type Product = {
   id: string;
   date: string;
   status: 'paid' | 'failed' | 'refunded';
   email: string;
   amount: number;
 };
-const data = ref<Payment[]>([
+*/
+/*
+const data = ref<Product[]>([
   {
     id: '4600',
     date: '2024-03-11T15:30:00',
@@ -70,54 +82,101 @@ const data = ref<Payment[]>([
     amount: 639,
   },
 ]);
-const columns: TableColumn<Payment>[] = [
+*/
+const columns: TableColumn<Product>[] = [
   {
     accessorKey: 'id',
     header: '#',
     cell: ({ row }) => `#${row.getValue('id')}`,
   },
   {
-    accessorKey: 'date',
-    header: 'Date',
+    accessorKey: 'images',
+    header: 'Producto',
     cell: ({ row }) => {
-      return new Date(row.getValue('date')).toLocaleString('en-US', {
-        day: 'numeric',
-        month: 'short',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      });
+      const images = row.getValue('images') as string[];
+      const url = Array.isArray(images) && images.length > 0 ? images[0] : '';
+
+      if (!url) 
+        return h('span', { class: 'text-gray-500',}, 'Sin Imagen');
+
+        /* return h('img',{
+          src: url,
+          alt: 'Imagen del producto',
+          style: 'width: 48px; heigth: 48px; object-fit: cover; border-radius: 0.5rem;'
+        }); */
+
+        return h('div', { class: 'flex items-center gap-3' }, [
+          h('img', {
+            src: url,
+            alt: 'Imagen del producto',
+            style: 'width: 48px; heigth: 48px; object-fit: cover; border-radius: 0.5rem;'
+          }),
+          h('div', undefined, [
+            h('p', { class: 'font-medium text-highlighted' }, row.original.name),
+            h('p', { class: '' }, `${formatCurrency(row.original.price)}`)
+          ])
+        ]);
+
     },
   },
+  /*
   {
-    accessorKey: 'status',
-    header: 'Status',
+    accessorKey: 'name',
+    header: 'Nombre',
+    cell: ({row}) => row.getValue('name'),
+  },
+  */
+  {
+    accessorKey: 'description',
+    header: 'Descripcion',
     cell: ({ row }) => {
-      const color = {
-        paid: 'success' as const,
-        failed: 'error' as const,
-        refunded: 'neutral' as const,
-      }[row.getValue('status') as string];
-      return h(UBadge, { class: 'capitalize', variant: 'subtle', color }, () =>
-        row.getValue('status')
+      return h(
+        'div',
+        {
+          style: 'white-space: normal, word-break: break-word; max-width: 400px; px-5 mx-5',
+          class: 'truncate-text',
+        },
+        String(row.getValue('description')).slice(0, 40) + '...',
       );
     },
   },
+  /*
   {
-    accessorKey: 'email',
-    header: 'Email',
+    accessorKey: 'price',
+    header: 'Precio',
+    cell: ({ row }) => formatCurrency(row.getValue('price')),
   },
+  */
   {
-    accessorKey: 'amount',
-    header: () => h('div', { class: 'text-right' }, 'Amount'),
+    accessorKey: 'tags',
+    header: 'Etiquetas',
     cell: ({ row }) => {
-      const amount = Number.parseFloat(row.getValue('amount'));
-      const formatted = new Intl.NumberFormat('es-MX', {
-        style: 'currency',
-        currency: 'MXN',
-      }).format(amount);
-      return h('div', { class: 'text-right font-medium' }, formatted);
+      const tags = row.getValue('tags') as string[];
+      
+      if(!Array.isArray(tags)) return '';
+
+      return h('div', { class: 'flex flex-wrap gap-1' },
+        tags.map((tag) =>
+          h(
+            UBadge, {
+              size:'xs',
+              color:'primary',
+              variant: 'subtle',
+              class: 'mr-0.5',
+            },
+            () => tag
+          )
+        )
+      )
     },
   },
+  {
+    accessorKey: 'createdAt',
+    header: 'Creado',
+    cell: ({ row }) => {
+      const value = row.getValue('createdAt');
+      return value ? dayMonthYearFormat(new Date(value as string)) : ' ';
+    }
+  }
 ];
 </script>
