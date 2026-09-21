@@ -2,6 +2,7 @@
 const route = useRoute();
 const slug = route.params.slug as string;
 // Simulación de productos - en producción esto vendría de una API
+/*
 const products = ref<Product[]>([
   {
     id: '1',
@@ -64,12 +65,25 @@ const products = ref<Product[]>([
 const product = computed(() => {
   return products.value.find((p) => p.slug === slug);
 });
+*/
+
+const { product } = await useProduct(slug);
+const { data: productSuggestions } = useFetch(`/api/product/${slug}/suggestions`, {
+  lazy: true,
+  server: false,
+});
+
 // Si no se encuentra el producto, mostrar error 404
 if (!product.value) {
+  
+  navigateTo('/404');
+
+  /*
   throw createError({
     statusCode: 404,
     statusMessage: 'Producto no encontrado',
   });
+  */
 }
 // Estado para la imagen seleccionada
 const selectedImageIndex = ref(0);
@@ -230,7 +244,7 @@ const totalPrice = computed(() => {
       </h2>
       <LazyProductsGrid
         hydrate-on-visible
-        :products="products.filter((p) => p.id !== product?.id).slice(0, 3)"
+        :products="productSuggestions || []"
       />
     </div>
   </div>
