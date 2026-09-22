@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { prisma } from "~~/server/utils/db";
 import bcrypt from 'bcryptjs';
+import { id } from 'zod/v4/locales';
 
 const bodySchema = z.object({
     email: z
@@ -31,6 +32,18 @@ export default defineEventHandler(async (event) => {
 
     const isPasswordValid = bcrypt.compareSync(password, user.password);
 
+    const userSession = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        roles: user.roles,
+    }
+
+    // create session
+    await setUserSession(event , {
+        user: userSession,
+    });
+
     if (!isPasswordValid) {
         throw createError({
             statusCode: 401,
@@ -40,6 +53,6 @@ export default defineEventHandler(async (event) => {
 
     return {
         message: 'Login successfully',
-        user: user,
+        user: userSession,
     };
 })
