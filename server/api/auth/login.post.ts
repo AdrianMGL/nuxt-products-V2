@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // create session
-    await setUserSession(event , {
+    await setUserSession(event, {
         user: userSession,
     });
 
