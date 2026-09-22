@@ -30,8 +30,8 @@ model Product {
 
 model User {
   id        Int @id @default(autoincrement())
-  name      String @unique
-  email     String
+  name      String 
+  email     String @unique
   password  String
   roles     String []
   createdAt DateTime @default(now())
