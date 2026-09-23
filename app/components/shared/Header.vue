@@ -93,7 +93,7 @@ const responsiveMenu = ref ([
         <UButton
           v-else
           variant="ghost"
-          icon="i-heroicons-user-circle"
+          icon="i-lucide-log-out"
           label="Logout"
           aria-label="Logout"
           @click="logout"
