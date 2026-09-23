@@ -9,6 +9,7 @@ definePageMeta({
       content: 'This is the dashboard page of our Nuxt 2 application.',
     },
   ],
+  middleware: ['auth'],
 });
 
 </script>
