@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
 
-const route = useRoute()
+const route = useRoute();
+const { isLoggedIn, logout, isAdmin } = useAuthentication();
 
 const items = computed<NavigationMenuItem[]>(() => [{
   label: 'Productos',
@@ -51,6 +52,19 @@ const responsiveMenu = ref ([
 
     <UNavigationMenu :items="items" />
 
+    <!-- REAL -->
+    <ClientOnly>
+      <UNavigationMenu 
+        v-if="isAdmin"
+        :items="[
+          {
+            label: 'Dashboard',
+            to: '/dashboard',
+          },
+        ]" 
+      />
+    </ClientOnly>
+
     <template #right>
       <UColorModeButton />
 
@@ -65,14 +79,26 @@ const responsiveMenu = ref ([
         />
       </UTooltip>
 
-      <UButton
-        color="primary"
-        variant="solid"
-        icon="i-heroicons-user-circle"
-        to="/login"
-        label="Login"
-        aria-label="Login"
+      <ClientOnly>
+        <UButton
+          v-if="!isLoggedIn"
+          color="primary"
+          variant="solid"
+          icon="i-heroicons-user-circle"
+          to="/login"
+          label="Login"
+          aria-label="Login"
+          />
+
+        <UButton
+          v-else
+          variant="ghost"
+          icon="i-heroicons-user-circle"
+          label="Logout"
+          aria-label="Logout"
+          @click="logout"
         />
+      </ClientOnly>
 
     </template>
 
