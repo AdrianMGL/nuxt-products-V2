@@ -3,6 +3,7 @@ export default defineEventHandler(async (event) => {
     const id = getRouterParam(event, 'id') as string;
 
     // TODO: revisar session de usuario
+    /*
     const session = await requireUserSession(event);
     const hasAdminRole = session.user.roles.includes('admin');
 
@@ -12,6 +13,7 @@ export default defineEventHandler(async (event) => {
             message: `Unauthorize`,
         });
     }
+    */
 
 
     /** */
