@@ -11,6 +11,7 @@
         </p>
       </div>
       <UButton
+        to="/dashboard/product/new"
         icon="i-lucide-plus"
         label="Agregar Producto"
         color="primary"
@@ -32,6 +33,7 @@
 import { h, resolveComponent } from 'vue';
 import type { TableColumn } from '@nuxt/ui';
 const UBadge = resolveComponent('UBadge');
+const NuxtLink = resolveComponent('NuxtLink');
 
 const { products, currentPage, perPage, total } = await usePaginatedProducts();
 
@@ -95,15 +97,11 @@ const columns: TableColumn<Product>[] = [
     cell: ({ row }) => {
       const images = row.getValue('images') as string[];
       const url = Array.isArray(images) && images.length > 0 ? images[0] : '';
+      const productName = row.original.name;
+      const productId = row.original.id;
 
       if (!url) 
         return h('span', { class: 'text-gray-500',}, 'Sin Imagen');
-
-        /* return h('img',{
-          src: url,
-          alt: 'Imagen del producto',
-          style: 'width: 48px; heigth: 48px; object-fit: cover; border-radius: 0.5rem;'
-        }); */
 
         return h('div', { class: 'flex items-center gap-3' }, [
           h('img', {
@@ -112,20 +110,36 @@ const columns: TableColumn<Product>[] = [
             style: 'width: 48px; heigth: 48px; object-fit: cover; border-radius: 0.5rem;'
           }),
           h('div', undefined, [
-            h('p', { class: 'font-medium text-highlighted' }, row.original.name),
+            h(NuxtLink, {
+              to: `/dashboard/product/${productId}`,
+              class: 'font-medium text-blue-500 hover:text-blue-700 underlinex cursor-pointer' }, 
+              productName,),
             h('p', { class: '' }, `${formatCurrency(row.original.price)}`)
           ])
         ]);
 
     },
   },
+  
   /*
   {
     accessorKey: 'name',
     header: 'Nombre',
-    cell: ({row}) => row.getValue('name'),
-  },
+    cell: ({ row }) => {
+      const productName = row.getValue('name');
+      const productId = row.getValue('id');
+
+      return h(NuxtLink, {
+        to: `/dashboard/product/${productId}`,
+        class: 'text-blue-500 hover:text-blue-700 underline cursor-pointer',
+      }, 
+      () => productName
+      );
+    },
+  },  
   */
+  
+
   {
     accessorKey: 'description',
     header: 'Descripcion',
