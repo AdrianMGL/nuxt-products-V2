@@ -3,6 +3,7 @@ import { tree } from '#build/ui';
 import z from 'zod';
 
 const route = useRoute();
+const toast = useToast();
 
 //variables
 const rawId = route.params.id as string;
@@ -72,11 +73,16 @@ const handleSubmit = async () => {
 
   console.log({ newProduct: newProduct.value });
   const product = await createOrUpdate(newProduct.value);
+
+  toast.add({
+    title: 'Producto actualizado correctamente',
+    description: `El producto ${product.name}, ha sido actualizado correctamente`,
+  })
 };
 
 //
 const handleCancel = () => {
-    navigateTo('/dashboard/products');
+  navigateTo('/dashboard/products');
 }
 
 //
@@ -299,7 +305,7 @@ watch(newProduct, () => {
                 </button>
               </div>
             </div>
-            <textarea
+            <!-- <textarea
               id="product-images"
               v-model="newProduct.images"
               rows="4"
@@ -310,6 +316,18 @@ watch(newProduct, () => {
                   : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700',
               ]"
               placeholder="https://ejemplo.com/imagen-1.jpg"
+            /> -->
+            <UInput
+              type="file"
+              multiple
+              id="product-images"
+              rows="4"
+              :class="[
+                'block w-full rounded-md bg-white px-3 py-2 shadow-sm focus:outline-none dark:bg-gray-900 dark:text-gray-100',
+                fieldErrors.imagesInput
+                  ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                  : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700',
+              ]"
             />
             <p class="text-sm text-gray-500 dark:text-gray-400">
               Ingresa una URL por línea.
