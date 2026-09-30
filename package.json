@@ -20,6 +20,7 @@
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "7.10.0",
     "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.11.0",
     "eslint": "^9.0.0 || ^10.0.0",
     "nuxt": "^4.5.2",
     "nuxt-auth-utils": "0.5.30",
