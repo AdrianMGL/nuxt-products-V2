@@ -58,8 +58,10 @@ const checkValidations = () => {
 };
 
 //
-const handleSubmit = () => {
+const handleSubmit = async () => {
   const isFormValid = checkValidations();
+
+  if (!newProduct.value) return;
 
   if (!isFormValid) {
     return;
@@ -69,6 +71,7 @@ const handleSubmit = () => {
   // newProduct.value!.images = `${newProduct.value!.tags}`.split(',');
 
   console.log({ newProduct: newProduct.value });
+  const product = await createOrUpdate(newProduct.value);
 };
 
 //

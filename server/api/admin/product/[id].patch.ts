@@ -41,7 +41,7 @@ export default defineEventHandler(async (event) => {
     // TODO: Leer files
 
 
-    const body = bodySchema.safeParse(dataString);
+    const body = bodySchema.safeParse(JSON.parse(dataString));
 
     if (!body.success) {
         throw createError({
@@ -52,6 +52,31 @@ export default defineEventHandler(async (event) => {
         });
     }
 
+    // Confirmar si el producto existe
+    const product = await prisma.product.findUnique({
+        where: {
+            id: +id,
+        },
+    });
 
-    return {}
+    if (!product) {
+        throw createError({
+            status: 404,
+            statusMessage: 'Product not found',
+        });
+    }
+
+    // updateProduct
+    const updatedProduct = await prisma.product.update({
+        where: {
+            id: +id,
+        },
+        data: body.data,
+    });
+
+    return {
+        message: 'Product updated',
+        product: updatedProduct,
+        files: [], // depurar files
+    }
 });
