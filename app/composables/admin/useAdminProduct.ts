@@ -12,17 +12,17 @@ export const useAdminProduct = async (id: string) => {
         // TODO: form-multipart data + archivos
         formData.append('data', JSON.stringify(data));
 
-        /*
+        /** */
         if (isCreating) {
             // TODO: crear enpoint
-            const { algo } = await $fetch('', {
+            const { product } = await $fetch('/api/admin/product', {
                 method: 'POST',
                 body: data,
             });
 
-            return algo;
+            return product;
         }
-        */
+        
 
         // TODO: actualizar producto
         try {
