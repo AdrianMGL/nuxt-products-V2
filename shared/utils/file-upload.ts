@@ -1,17 +1,26 @@
 import { v2 as cloudinary, type UploadApiResponse } from 'cloudinary';
 import { v4 as uuidV4 } from 'uuid';
 
-// Configuration
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_API_KEY,
-    api_secret: process.env.CLOUD_API_SECRET
-});
-
 interface UploadResponse {
     success: boolean,
     result: UploadApiResponse | undefined,
 }
+
+const cloudinaryConfig = {
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET,
+};
+
+const missingConfig = Object.entries(cloudinaryConfig)
+    .filter(([, value]) => !value)
+    .map(([key]) => key);
+
+if (missingConfig.length > 0) {
+    throw new Error(`Missing Cloudinary configuration: ${missingConfig.join(', ')}`);
+}
+
+cloudinary.config(cloudinaryConfig);
 
 export const fileUpload = async (fileBuffer: Buffer<ArrayBufferLike>) => {
     // TODO
@@ -34,6 +43,7 @@ export const fileUpload = async (fileBuffer: Buffer<ArrayBufferLike>) => {
             }).end(fileBuffer);
         })
 
+        const cloudinaryPublicId = uploadResult.result!.public_id;
         console.log({ result: uploadResult.result });
 
         if (!uploadResult.success) {
@@ -41,7 +51,7 @@ export const fileUpload = async (fileBuffer: Buffer<ArrayBufferLike>) => {
         }
 
         // Optimize delivery by resizing and applying auto-format and auto-quality
-        const optimizeUrl = cloudinary.url(uuidFileName, {
+        const optimizeUrl = cloudinary.url(cloudinaryPublicId, {
             fetch_format: 'auto',
             quality: 'auto',
             width: 600,
@@ -53,7 +63,7 @@ export const fileUpload = async (fileBuffer: Buffer<ArrayBufferLike>) => {
 
         return optimizeUrl
     } catch (error) {
-        console.log({ error });
-        throw new Error('Error while loading file');
+        console.error('Cloudinary upload failed:', error);
+        throw error;
     }
 }

@@ -1,5 +1,11 @@
 import z from 'zod';
 
+interface FileData {
+    name: string;
+    type: string;
+    data: Buffer;
+}
+
 const bodySchema = z.object({
     slug: z.string().min(1),
     name: z.string().min(1),
@@ -16,6 +22,7 @@ export default defineEventHandler(async (event) => {
 
     const id = getRouterParam(event, 'id') as string;
     const formData = await readMultipartFormData(event);
+    const files: FileData[] = [];  // Array<FileData>
 
     if (!formData || formData.length === 0) {
         throw createError({
@@ -28,7 +35,6 @@ export default defineEventHandler(async (event) => {
     // TODO: procesar los archivos
     console.log({ formData });
 
-
     let dataString = '';
 
     for (const part of formData) {
@@ -36,11 +42,16 @@ export default defineEventHandler(async (event) => {
             dataString = part.data.toString('utf-8');
             console.log({ dataString });
         };
+
+         // TODO: Leer files
+        if (part.name === 'files' && part.filename) {
+            files.push({
+                name: part.filename,
+                type: part.type || 'application/octet-stream',
+                data: part.data,
+            });
+        }
     }
-
-
-    // TODO: Leer files
-
 
     const body = bodySchema.safeParse(JSON.parse(dataString));
 
@@ -67,6 +78,18 @@ export default defineEventHandler(async (event) => {
         });
     }
 
+    // Enviar los archivos a Cloudinary
+    if (files.length > 0) {
+        const uploadFiles = await Promise.all(
+            files.map(async (file) => {
+                const url = await fileUpload(file.data);
+                return url;
+            }),
+        );
+        // body.data.images = [...body.data.images, ...uploadFiles]
+        body.data.images = body.data.images.concat(uploadFiles);
+    }
+
     // updateProduct
     const updatedProduct = await prisma.product.update({
         where: {
@@ -78,6 +101,6 @@ export default defineEventHandler(async (event) => {
     return {
         message: 'Product updated',
         product: updatedProduct,
-        files: [], // depurar files
+        // files: [], // depurar files
     }
 });
