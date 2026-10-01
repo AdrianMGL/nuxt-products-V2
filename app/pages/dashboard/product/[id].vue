@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { tree } from '#build/ui';
-import z from 'zod';
+import z, { array } from 'zod';
 
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
+
+const filesToUpload = ref<File[]>([]);
 
 const messageQuery = route.query.message as string;
 
@@ -83,7 +85,9 @@ const handleSubmit = async () => {
   // newProduct.value!.images = `${newProduct.value!.tags}`.split(',');
 
   console.log({ newProduct: newProduct.value });
-  const product = await createOrUpdate(newProduct.value);
+  const product = await createOrUpdate(newProduct.value,
+    filesToUpload.value.length > 0 ? filesToUpload.value : undefined
+  );
 
   if (isCreating.value) {
     router.replace(`/dashboard/product/${product.id}?message=Producto creado correctamente.`);
@@ -101,6 +105,18 @@ const handleSubmit = async () => {
 //
 const handleCancel = () => {
   navigateTo('/dashboard/products');
+}
+
+//
+const handleFilesChanged = (event: Event) => {
+  const files = (event.target as HTMLInputElement).files;
+
+  if (!files) return
+
+  filesToUpload.value = Array.from(files);
+  console.log({ files: filesToUpload.value });
+
+  // TODO: crear una vista previa del archivo antes de subir
 }
 
 //
@@ -262,12 +278,13 @@ watch(newProduct, () => {
               ]"
               placeholder="https://ejemplo.com/imagen-1.jpg"
             /> -->
-            <UInput v-if="!isCreating" type="file" multiple id="product-images" rows="4" :class="[
-              'block w-full rounded-md bg-white px-3 py-2 shadow-sm focus:outline-none dark:bg-gray-900 dark:text-gray-100',
-              fieldErrors.imagesInput
-                ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700',
-            ]" />
+            <UInput v-if="!isCreating" @change="handleFilesChanged($event)" type="file" multiple id="product-images"
+              rows="4" :class="[
+                'block w-full rounded-md bg-white px-3 py-2 shadow-sm focus:outline-none dark:bg-gray-900 dark:text-gray-100',
+                fieldErrors.imagesInput
+                  ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                  : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700',
+              ]" />
             <p class="text-sm text-gray-500 dark:text-gray-400">
               Ingresa una URL por línea.
             </p>

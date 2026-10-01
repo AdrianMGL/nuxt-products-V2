@@ -12,6 +12,13 @@ export const useAdminProduct = async (id: string) => {
         // TODO: form-multipart data + archivos
         formData.append('data', JSON.stringify(data));
 
+        // si hay archivos cargalos
+        if (files) {
+            files.forEach((file) => {
+                formData.append('files', file);
+            });
+        }
+
         /** */
         if (isCreating) {
             // TODO: crear enpoint
@@ -22,7 +29,7 @@ export const useAdminProduct = async (id: string) => {
 
             return product;
         }
-        
+
 
         // TODO: actualizar producto
         try {
@@ -30,7 +37,7 @@ export const useAdminProduct = async (id: string) => {
                 method: 'PATCH',
                 body: formData,
             });
-            
+
             return product;
         } catch (error) {
             throw createError({

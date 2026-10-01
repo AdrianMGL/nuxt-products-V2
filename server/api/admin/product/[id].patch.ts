@@ -26,6 +26,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // TODO: procesar los archivos
+    console.log({ formData });
 
 
     let dataString = '';
