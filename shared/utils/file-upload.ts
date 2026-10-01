@@ -44,7 +44,7 @@ export const fileUpload = async (fileBuffer: Buffer<ArrayBufferLike>) => {
         })
 
         const cloudinaryPublicId = uploadResult.result!.public_id;
-        console.log({ result: uploadResult.result });
+        // console.log({ result: uploadResult.result });
 
         if (!uploadResult.success) {
             throw new Error('Cant upload image');
@@ -59,7 +59,7 @@ export const fileUpload = async (fileBuffer: Buffer<ArrayBufferLike>) => {
             crop: 'limit',
         });
 
-        console.log(optimizeUrl);
+        // console.log(optimizeUrl);
 
         return optimizeUrl
     } catch (error) {

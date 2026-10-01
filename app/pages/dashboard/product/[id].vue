@@ -7,6 +7,7 @@ const route = useRoute();
 const toast = useToast();
 
 const filesToUpload = ref<File[]>([]);
+// const fileInputRef = ref<HTMLInputElement | null>(null);
 
 const messageQuery = route.query.message as string;
 
@@ -81,6 +82,8 @@ const handleSubmit = async () => {
     return;
   }
 
+  isSubmitting.value = true;
+
   newProduct.value!.tags = `${newProduct.value!.tags}`.split(',');
   // newProduct.value!.images = `${newProduct.value!.tags}`.split(',');
 
@@ -89,17 +92,22 @@ const handleSubmit = async () => {
     filesToUpload.value.length > 0 ? filesToUpload.value : undefined
   );
 
+  newProduct.value = product;
+
   if (isCreating.value) {
     router.replace(`/dashboard/product/${product.id}?message=Producto creado correctamente.`);
     return;
   }
 
   // TODO: limpiar los archivos seleccionados
+  filesToUpload.value = [];
 
   toast.add({
     title: 'Producto actualizado correctamente',
     description: `El producto ${product.name}, ha sido actualizado correctamente`,
-  })
+  });
+
+  isSubmitting.value = false;
 };
 
 //
@@ -278,7 +286,7 @@ watch(newProduct, () => {
               ]"
               placeholder="https://ejemplo.com/imagen-1.jpg"
             /> -->
-            <UInput v-if="!isCreating" @change="handleFilesChanged($event)" type="file" multiple id="product-images"
+            <UInput v-if="!isCreating && !isSubmitting" @change="handleFilesChanged($event)" type="file" multiple id="product-images"
               rows="4" :class="[
                 'block w-full rounded-md bg-white px-3 py-2 shadow-sm focus:outline-none dark:bg-gray-900 dark:text-gray-100',
                 fieldErrors.imagesInput
