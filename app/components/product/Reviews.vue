@@ -4,7 +4,7 @@ const props = defineProps<{
   slug: string;
 }>();
 
-// const {isLoggedIn} = userAuthentication();
+const { isLoggedIn } = useAuthentication();
 
 const { data, status, refresh } = useFetch(`/api/product/${props.slug}/reviews`,
   {
@@ -154,6 +154,15 @@ const { data, status, refresh } = useFetch(`/api/product/${props.slug}/reviews`,
 //       'Me sorprendió la calidad. El envío también fue muy rápido. ¡Gracias!',
 //   },
 // ]);
+
+const hasUserPostedReview = computed(() => {
+  return data.value?.hasUserPostedReview || false;
+});
+
+const handleReviewPosted = () => {
+  console.log('Review posted, refreshing reviews...');
+ };
+
 </script>
 
 <template>
@@ -175,7 +184,12 @@ const { data, status, refresh } = useFetch(`/api/product/${props.slug}/reviews`,
         class="ml-4"
         label="Añadir reseña"
       /> -->
-      <ModalReview button-label="Añadir reseña" />
+      <ModalReview
+        v-if="isLoggedIn && !hasUserPostedReview"
+        :slug="slug"
+        @review-posted="handleReviewPosted"
+        button-label="Añadir reseña" 
+      />
     </div>
   </UCard>
 
