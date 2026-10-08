@@ -52,6 +52,11 @@ export type SiteReview = Prisma.SiteReviewModel
  */
 export type Product = Prisma.ProductModel
 /**
+ * Model ProductReview
+ * 
+ */
+export type ProductReview = Prisma.ProductReviewModel
+/**
  * Model User
  * 
  */
