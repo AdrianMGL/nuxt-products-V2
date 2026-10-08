@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { ProductReview } from '../../../prisma/generated/browser';
+import type { User } from '#auth-utils';
 
 defineProps<{
   buttonLabel: string;
   slug: string;
+  user: User | null;
 }>();
 
 const emit = defineEmits<{
@@ -79,7 +81,6 @@ const handleCloseModal = (event: boolean) => {
               v-model="userTitle"
               class="w-full"
               placeholder="Título del usuario"
-              disabled
             />
           </div>
 

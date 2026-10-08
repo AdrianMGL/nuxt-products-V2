@@ -13,7 +13,7 @@ const { data: productSuggestions, status } = useFetch(`/api/product/${props.slug
 </script>
 
 <template>
-  <div class="mb-30">
+  <ClientOnly class="mb-30">
     <div v-if="status === 'pending'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       <USkeleton class="w-full h-52 rounded-md mb-4" />
       <USkeleton class="w-full h-52 rounded-md mb-4" />
@@ -21,5 +21,5 @@ const { data: productSuggestions, status } = useFetch(`/api/product/${props.slug
     </div>
 
     <ProductsGrid v-else :products="productSuggestions || []" class="fade-in" />
-  </div>
+  </ClientOnly>
 </template>
