@@ -44,6 +44,10 @@ model ProductReview {
   // Relaciones
   product   Product @relation(fields: [productId], references: [id])
   productId Int
+
+  // user
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 }
 
 model User {
@@ -52,6 +56,10 @@ model User {
   email     String @unique
   password  String
   roles     String []
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relaciones
+  productReviews ProductReview[]
 }
