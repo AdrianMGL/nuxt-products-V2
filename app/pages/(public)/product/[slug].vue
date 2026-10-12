@@ -75,22 +75,28 @@ useSeoMeta({
   ogTitle: () => product.value?.name || 'Producto',
   ogDescription: () => product.value?.description || 'Producto',
   ogImage: () => product.value?.images?.[0] || '',
+
+  // adicionales
+  twitterCard: 'summary_large_image',
+  twitterTitle: () => product.value?.name || 'Producto',
+  twitterDescription: () => product.value?.description || '',
+  twitterImage: () => product.value?.images?.[0] || '',
 });
 
 useHead(() => ({
   link: product.value?.images[0]
     ? [{
-        rel: 'preload',
-        as: 'image',
-        href: product.value.images[0],
-        fetchpriority: 'high',
-      }]
+      rel: 'preload',
+      as: 'image',
+      href: product.value.images[0],
+      fetchpriority: 'high',
+    }]
     : [],
 }));
 
 // Si no se encuentra el producto, mostrar error 404
 if (!product.value) {
-  
+
   navigateTo('/404');
 
   /*
@@ -120,13 +126,10 @@ const totalPrice = computed(() => {
 <template>
   <div v-if="product" class="container mx-auto px-4 py-8">
     <!-- Breadcrumb -->
-    <UBreadcrumb
-      class="mb-8"
-      :items="[
-        { label: 'Productos', to: '/products' },
-        { label: product.name, to: `/product/${product.slug}` },
-      ]"
-    />
+    <UBreadcrumb class="mb-8" :items="[
+      { label: 'Productos', to: '/products' },
+      { label: product.name, to: `/product/${product.slug}` },
+    ]" />
 
     <!-- Product Detail -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -134,38 +137,19 @@ const totalPrice = computed(() => {
       <div class="space-y-4">
         <!-- Main Image -->
         <div class="rounded-lg overflow-hidden bg-gray-100">
-          <img
-            :src="product.images[selectedImageIndex]"
-            :alt="product.name"
-            class="w-full h-96 object-cover"
-            width="600"
-            height="400"
-            fetchpriority="high"
-            loading="eager"
-          />
+          <img :src="product.images[selectedImageIndex]" :alt="product.name" class="w-full h-96 object-cover"
+            width="600" height="400" fetchpriority="high" loading="eager" />
         </div>
 
         <!-- Thumbnail Images -->
         <div class="grid grid-cols-3 gap-4">
-          <button
-            v-for="(image, index) in product.images"
-            :key="index"
-            @click="selectedImageIndex = index"
-            class="rounded-lg overflow-hidden border-2 transition-all cursor-pointer"
-            :class="
-              selectedImageIndex === index
+          <button v-for="(image, index) in product.images" :key="index" @click="selectedImageIndex = index"
+            class="rounded-lg overflow-hidden border-2 transition-all cursor-pointer" :class="selectedImageIndex === index
                 ? 'border-primary-500'
                 : 'border-gray-200 hover:border-gray-300'
-            "
-          >
-            <img
-              :src="image"
-              :alt="`${product.name} - Image ${index + 1}`"
-              class="w-full h-24 object-cover"
-              width="300"
-              height="96"
-              loading="lazy"
-            />
+              ">
+            <img :src="image" :alt="`${product.name} - Image ${index + 1}`" class="w-full h-24 object-cover" width="300"
+              height="96" loading="lazy" />
           </button>
         </div>
       </div>
@@ -184,13 +168,7 @@ const totalPrice = computed(() => {
 
         <!-- Tags -->
         <div class="flex flex-wrap gap-2">
-          <UBadge
-            v-for="tag in product.tags"
-            :key="tag"
-            color="primary"
-            variant="subtle"
-            class="capitalize"
-          >
+          <UBadge v-for="tag in product.tags" :key="tag" color="primary" variant="subtle" class="capitalize">
             {{ tag }}
           </UBadge>
         </div>
@@ -210,20 +188,10 @@ const totalPrice = computed(() => {
           <h3 class="text-sm font-medium text-gray-900 mb-3">Cantidad</h3>
           <div class="flex items-center space-x-4">
             <div class="flex items-center border border-gray-300 rounded-lg">
-              <UButton
-                icon="i-lucide-minus"
-                color="neutral"
-                variant="ghost"
-                @click="decreaseQuantity"
-                :disabled="quantity <= 1"
-              />
+              <UButton icon="i-lucide-minus" color="neutral" variant="ghost" @click="decreaseQuantity"
+                :disabled="quantity <= 1" />
               <span class="px-4 py-2 font-semibold">{{ quantity }}</span>
-              <UButton
-                icon="i-lucide-plus"
-                color="neutral"
-                variant="ghost"
-                @click="increaseQuantity"
-              />
+              <UButton icon="i-lucide-plus" color="neutral" variant="ghost" @click="increaseQuantity" />
             </div>
             <p class="text-sm text-gray-500">
               Total: {{ formatCurrency(totalPrice) }}
@@ -233,21 +201,9 @@ const totalPrice = computed(() => {
 
         <!-- Action Buttons -->
         <div class="space-y-3">
-          <UButton
-            color="primary"
-            size="xl"
-            block
-            icon="i-lucide-shopping-cart"
-            label="Agregar al carrito"
-          />
-          <UButton
-            color="neutral"
-            size="xl"
-            block
-            variant="outline"
-            icon="i-lucide-heart"
-            label="Agregar a favoritos"
-          />
+          <UButton color="primary" size="xl" block icon="i-lucide-shopping-cart" label="Agregar al carrito" />
+          <UButton color="neutral" size="xl" block variant="outline" icon="i-lucide-heart"
+            label="Agregar a favoritos" />
         </div>
       </div>
     </div>
