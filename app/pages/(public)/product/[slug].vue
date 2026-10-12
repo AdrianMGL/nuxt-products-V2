@@ -69,6 +69,14 @@ const product = computed(() => {
 
 const { product } = await useProduct(slug);
 
+useSeoMeta({
+  title: () => product.value?.name || 'Producto',
+  description: () => product.value?.description || '',
+  ogTitle: () => product.value?.name || 'Producto',
+  ogDescription: () => product.value?.description || 'Producto',
+  ogImage: () => product.value?.images?.[0] || '',
+});
+
 useHead(() => ({
   link: product.value?.images[0]
     ? [{
