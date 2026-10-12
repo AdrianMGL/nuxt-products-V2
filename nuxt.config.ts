@@ -9,6 +9,9 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'es',
+      },
       title: 'Mi tienda de servicios',
       meta: [
         { 

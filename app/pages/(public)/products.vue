@@ -13,6 +13,16 @@
 //
 const { products, total, currentPage, perPage } = await usePaginatedProducts();
 
+useHead(() => ({
+  link: products.value?.[0]?.images[0]
+    ? [{
+        rel: 'preload',
+        as: 'image',
+        href: products.value[0].images[0],
+        fetchpriority: 'high',
+      }]
+    : [],
+}));
 
 </script>
 
@@ -31,7 +41,7 @@ const { products, total, currentPage, perPage } = await usePaginatedProducts();
 
   <div class="mt-10" />
 
-  <ProductsGrid :products="products || []" />
+  <ProductsGrid :products="products || []" priority-first-image />
 
   <SharedPagination :total="total" :model-value="currentPage" :per-page="perPage" />
 </template>

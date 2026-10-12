@@ -69,6 +69,16 @@ const product = computed(() => {
 
 const { product } = await useProduct(slug);
 
+useHead(() => ({
+  link: product.value?.images[0]
+    ? [{
+        rel: 'preload',
+        as: 'image',
+        href: product.value.images[0],
+        fetchpriority: 'high',
+      }]
+    : [],
+}));
 
 // Si no se encuentra el producto, mostrar error 404
 if (!product.value) {
@@ -120,7 +130,10 @@ const totalPrice = computed(() => {
             :src="product.images[selectedImageIndex]"
             :alt="product.name"
             class="w-full h-96 object-cover"
-            loading="lazy"
+            width="600"
+            height="400"
+            fetchpriority="high"
+            loading="eager"
           />
         </div>
 
@@ -141,6 +154,9 @@ const totalPrice = computed(() => {
               :src="image"
               :alt="`${product.name} - Image ${index + 1}`"
               class="w-full h-24 object-cover"
+              width="300"
+              height="96"
+              loading="lazy"
             />
           </button>
         </div>

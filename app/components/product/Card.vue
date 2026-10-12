@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   product: Product;
+  priority?: boolean;
 }>();
 </script>
 
@@ -10,6 +11,10 @@ defineProps<{
       :src="product.images[0]"
       alt="Product Image"
       class="w-full h-52 object-cover rounded-md"
+      width="600"
+      height="400"
+      :loading="priority ? 'eager' : 'lazy'"
+      :fetchpriority="priority ? 'high' : 'auto'"
     />
 
     <div class="mt-4">
